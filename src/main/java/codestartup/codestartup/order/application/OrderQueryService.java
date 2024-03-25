@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static codestartup.codestartup.order.domain.Discount.getTotalDiscount;
+import static codestartup.codestartup.order.domain.Discount.getDiscountList;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -21,7 +20,7 @@ public class OrderQueryService {
                 .stream()
                 .map(book -> GetBookView.builder()
                         .book(book)
-                        .discountPrice(getTotalDiscount(book))
+                        .discountList(getDiscountList(book))
                         .build())
                 .toList();
         return new GetBookListView(books);

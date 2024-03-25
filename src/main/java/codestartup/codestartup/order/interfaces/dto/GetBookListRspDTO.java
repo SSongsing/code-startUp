@@ -31,6 +31,8 @@ public class GetBookListRspDTO extends CommonRspDTO {
         private Integer originPrice;
         @JsonProperty("discount_price")
         private Integer discountPrice;
+        @JsonProperty("discount_list")
+        private List<Integer> discountList;
 
         public GetBookRspDTO(GetBookView getBookView) {
             this.id = getBookView.getId();
@@ -38,6 +40,8 @@ public class GetBookListRspDTO extends CommonRspDTO {
             this.category = getBookView.getCategory();
             this.originPrice = getBookView.getOriginPrice();
             this.discountPrice = getBookView.getDiscountPrice();
+            this.discountList = new ArrayList<>();
+            this.discountList.addAll(getBookView.getDiscountList());
         }
     }
 }
