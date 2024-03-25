@@ -1,5 +1,7 @@
 package codestartup.codestartup.order.domain;
 
-public interface BookRepository {
+import java.util.List;
 
+public interface BookRepository {
+    List<Book> findAll();
 }
