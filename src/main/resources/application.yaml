@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: codeStartUp
+  datasource:
+    url: jdbc:h2:mem:test
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    defer-datasource-initialization: true
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+  sql:
+    init:
+      schema-locations: classpath:static/schema.sql
+      data-locations: classpath:static/data.sql
