@@ -1,9 +1,8 @@
 package codestartup.codestartup.order.interfaces.dto;
 
-import codestartup.codestartup.order.domain.GetBookListView;
-import codestartup.codestartup.order.domain.GetBookView;
+import codestartup.codestartup.order.domain.view.GetBookListView;
+import codestartup.codestartup.order.domain.view.GetBookView;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

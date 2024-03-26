@@ -8,7 +8,7 @@ import java.util.List;
 @ToString
 public class OrderBookReqDTO {
     private String payMethod;
-    private String payAmount;
+    private Integer payAmount;
     private Item item;
 
     @Getter

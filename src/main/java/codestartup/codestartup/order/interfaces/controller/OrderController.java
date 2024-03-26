@@ -1,8 +1,10 @@
 package codestartup.codestartup.order.interfaces.controller;
 
 
+import codestartup.codestartup.order.application.OrderCommandService;
 import codestartup.codestartup.order.application.OrderQueryService;
-import codestartup.codestartup.order.domain.GetBookListView;
+import codestartup.codestartup.order.domain.view.GetBookListView;
+import codestartup.codestartup.order.domain.OrderBookCommand;
 import codestartup.codestartup.order.interfaces.dto.GetBookListRspDTO;
 import codestartup.codestartup.order.interfaces.dto.OrderBookReqDTO;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderQueryService orderQueryService;
+    private final OrderCommandService orderCommandService;
+
     @GetMapping("/books")
     public ResponseEntity<GetBookListRspDTO> getBookList() {
         GetBookListView getBookListView = orderQueryService.getBookList();
@@ -25,6 +29,12 @@ public class OrderController {
 
     @PostMapping("/books/orders")
     public ResponseEntity<Object> orderBook(@RequestBody OrderBookReqDTO orderBookReqDTO) {
+        OrderBookCommand orderBookCommand = OrderBookCommand.builder()
+                .payAmount(orderBookReqDTO.getPayAmount())
+                .payMethod(orderBookReqDTO.getPayMethod())
+                .itemId(orderBookReqDTO.getItem().getId())
+                .build();
+        orderCommandService.orderBook(orderBookCommand);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
