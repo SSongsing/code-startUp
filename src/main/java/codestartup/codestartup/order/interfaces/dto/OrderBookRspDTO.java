@@ -3,6 +3,10 @@ package codestartup.codestartup.order.interfaces.dto;
 import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.domain.view.PayDetailView;
 import codestartup.codestartup.order.domain.view.ReceiptView;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,6 +23,7 @@ public class OrderBookRspDTO extends CommonRspDTO {
     }
 
     @Getter
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Receipt {
         private String payMethod;
         private Integer payAmount;
@@ -33,6 +38,7 @@ public class OrderBookRspDTO extends CommonRspDTO {
     }
 
     @Getter
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     private static class PayDetail {
         private Integer originPrice;
         private Integer discountPrice;
