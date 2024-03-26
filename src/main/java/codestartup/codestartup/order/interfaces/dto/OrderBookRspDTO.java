@@ -1,6 +1,9 @@
 package codestartup.codestartup.order.interfaces.dto;
 
 import codestartup.codestartup.order.domain.OrderBookCommand;
+import codestartup.codestartup.order.domain.view.OrderBookView;
+import codestartup.codestartup.order.domain.view.PayDetailView;
+import codestartup.codestartup.order.domain.view.ReceiptView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,26 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public class OrderBookRspDTO extends CommonRspDTO {
     private Receipt receipt;
 
-    @Builder
-    public OrderBookRspDTO(
-            OrderBookCommand orderBookCommand,
-            Integer originPrice,
-            Integer discountPrice,
-            List<Integer> discountList,
-            Integer changeAmount
-            ) {
-        this.receipt = Receipt.builder()
-                .orderBookCommand(orderBookCommand)
-                .originPrice(originPrice)
-                .discountPrice(discountPrice)
-                .discountList(discountList)
-                .changeAmount(changeAmount)
-                .build();
+    public OrderBookRspDTO(OrderBookView orderBookView) {
+        this.receipt = new Receipt(orderBookView.getReceiptView());
     }
 
     @Getter
@@ -38,18 +27,12 @@ public class OrderBookRspDTO extends CommonRspDTO {
         private Integer payAmount;
         private PayDetail payDetail;
 
-        @Builder
-        public Receipt(
-                OrderBookCommand orderBookCommand,
-                Integer originPrice,
-                Integer discountPrice,
-                List<Integer> discountList,
-                Integer changeAmount
-        ) {
-            this.payAmount = orderBookCommand.getPayAmount();
-            this.payMethod = orderBookCommand.getPayMethod();
-            this.payDetail = new PayDetail(originPrice, discountPrice, changeAmount, discountList);
+        public Receipt(ReceiptView receiptView) {
+            this.payMethod = receiptView.getPayMethod();
+            this.payAmount = receiptView.getPayAmount();
+            this.payDetail = new PayDetail(receiptView.getPayDetail());
         }
+
     }
 
     @Getter
@@ -59,12 +42,13 @@ public class OrderBookRspDTO extends CommonRspDTO {
         private List<Integer> discountList;
         private Integer changeAmount;
 
-        public PayDetail(Integer originPrice, Integer discountPrice, Integer changeAmount, List<Integer> discountList) {
-            this.originPrice = originPrice;
-            this.discountPrice = discountPrice;
-            this.changeAmount = changeAmount;
+        public PayDetail(PayDetailView payDetailView) {
+            this.originPrice = payDetailView.getOriginPrice();
+            this.discountPrice = payDetailView.getDiscountPrice();
+            this.changeAmount = payDetailView.getChangeAmount();
             this.discountList = new ArrayList<>();
-            discountList.addAll(discountList);
+            this.discountList.addAll(payDetailView.getDiscountList());
         }
+
     }
 }

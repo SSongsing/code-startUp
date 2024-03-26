@@ -7,7 +7,6 @@ import codestartup.codestartup.order.domain.OrderBookCommand;
 import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.domain.view.PayDetailView;
 import codestartup.codestartup.order.domain.view.ReceiptView;
-import codestartup.codestartup.order.interfaces.dto.OrderBookRspDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +30,12 @@ public class OrderCommandService {
         if (orderBookCommand.getPayMethod().equals("CASH")) {
             changeAmount = orderBookCommand.getPayAmount() - book.get().getPrice() + discountPrice;
         }
-        PayDetailView payDetailView = PayDetailView.builder()
-                .originPrice(book.get().getPrice())
-                .changeAmount(changeAmount)
-                .discountPrice(discountPrice)
-                .discountList(discountList)
+
+        ReceiptView receiptView = ReceiptView.builder()
+                .payMethod(orderBookCommand.getPayMethod())
+                .payAmount(orderBookCommand.getPayAmount())
+                .payDetail(new PayDetailView(book.get().getPrice(), discountPrice, changeAmount, discountList))
                 .build();
-        ReceiptView receiptView = ReceiptView.builder().payMethod(orderBookCommand.getPayMethod()).payAmount(orderBookCommand.getPayAmount()).payDetail(payDetailView).build();
-        return OrderBookView.builder().receiptView(receiptView).build();
+        return new OrderBookView(receiptView);
     }
 }

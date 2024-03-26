@@ -8,6 +8,7 @@ import codestartup.codestartup.order.domain.OrderBookCommand;
 import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.interfaces.dto.GetBookListRspDTO;
 import codestartup.codestartup.order.interfaces.dto.OrderBookReqDTO;
+import codestartup.codestartup.order.interfaces.dto.OrderBookRspDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,6 @@ public class OrderController {
                 .itemId(orderBookReqDTO.getItem().getId())
                 .build();
         OrderBookView orderBookView = orderCommandService.orderBook(orderBookCommand);
-        return new ResponseEntity<>(orderBookView, HttpStatus.OK);
+        return new ResponseEntity<>(new OrderBookRspDTO(orderBookView), HttpStatus.OK);
     }
 }
