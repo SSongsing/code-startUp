@@ -30,4 +30,9 @@ public class Order {
     @CreatedDate
     private LocalDateTime regDate;
 
+    public Order(String bookId, String payMethod) {
+        this.bookId = bookId;
+        this.payMethod = payMethod;
+    }
+
 }

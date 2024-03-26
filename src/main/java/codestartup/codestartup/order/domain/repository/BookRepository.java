@@ -1,4 +1,6 @@
-package codestartup.codestartup.order.domain;
+package codestartup.codestartup.order.domain.repository;
+
+import codestartup.codestartup.order.domain.Book;
 
 import java.util.List;
 import java.util.Optional;
