@@ -1,5 +1,6 @@
-package codestartup.codestartup.order.domain;
+package codestartup.codestartup.order.domain.view;
 
+import codestartup.codestartup.order.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -10,27 +10,29 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Builder
-@Table(name = "books")
+@Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class Book {
+public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    private String name;
+    @Column(name = "book_id")
+    private String bookId;
 
-    private String category;
-
-    private Integer price;
+    @Column(name = "pay_method")
+    private String payMethod;
 
     @Column(name = "reg_date", updatable = false)
     @CreatedDate
     private LocalDateTime regDate;
 
-    public Boolean isBuyable(Integer payAmount) {
-        return payAmount >= this.price;
+    public Order(String bookId, String payMethod) {
+        this.bookId = bookId;
+        this.payMethod = payMethod;
     }
 
 }
