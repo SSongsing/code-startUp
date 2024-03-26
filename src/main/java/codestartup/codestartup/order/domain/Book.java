@@ -29,4 +29,8 @@ public class Book {
     @CreatedDate
     private LocalDateTime regDate;
 
+    public Boolean isBuyable(Integer payAmount) {
+        return payAmount >= this.price;
+    }
+
 }

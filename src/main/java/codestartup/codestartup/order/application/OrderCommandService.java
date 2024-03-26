@@ -1,5 +1,6 @@
 package codestartup.codestartup.order.application;
 
+import codestartup.codestartup.common.ApiException;
 import codestartup.codestartup.order.domain.Book;
 import codestartup.codestartup.order.domain.Order;
 import codestartup.codestartup.order.domain.repository.BookRepository;
@@ -10,6 +11,7 @@ import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.domain.view.PayDetailView;
 import codestartup.codestartup.order.domain.view.ReceiptView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,14 +26,15 @@ public class OrderCommandService {
 
     @Transactional(rollbackOn = {Exception.class})
     public OrderBookView orderBook(OrderBookCommand orderBookCommand) {
-        Optional<Book> book = bookRepository.findById(Integer.parseInt(orderBookCommand.getItemId()));
-        if (book.isEmpty() || book.get().getPrice() > orderBookCommand.getPayAmount()) return new OrderBookView();
+        Book book = bookRepository.findById(Integer.parseInt(orderBookCommand.getItemId()))
+                .filter(b -> b.isBuyable(orderBookCommand.getPayAmount()))
+                .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
 
-        List<Integer> discountList = DiscountUtils.getDiscountList(book.get());
+        List<Integer> discountList = DiscountUtils.getDiscountList(book);
         Integer discountPrice = discountList.stream().reduce(0, Integer::sum);
         Integer changeAmount = 0;
         if (orderBookCommand.getPayMethod().equals("CASH")) {
-            changeAmount = orderBookCommand.getPayAmount() - book.get().getPrice() + discountPrice;
+            changeAmount = orderBookCommand.getPayAmount() - book.getPrice() + discountPrice;
         }
 
         Order order = new Order(orderBookCommand.getItemId(), orderBookCommand.getPayMethod());
@@ -40,7 +43,7 @@ public class OrderCommandService {
         ReceiptView receiptView = ReceiptView.builder()
                 .payMethod(orderBookCommand.getPayMethod())
                 .payAmount(orderBookCommand.getPayAmount())
-                .payDetail(new PayDetailView(book.get().getPrice(), discountPrice, changeAmount, discountList))
+                .payDetail(new PayDetailView(book.getPrice(), discountPrice, changeAmount, discountList))
                 .build();
         return new OrderBookView(receiptView);
     }
