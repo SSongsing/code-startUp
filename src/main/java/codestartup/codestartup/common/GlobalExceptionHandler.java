@@ -7,12 +7,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import org.springframework.http.HttpHeaders;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private HttpHeaders setHeaders(String message) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("resultMessage", message);
+        httpHeaders.set("resultMessage", URLEncoder.encode(message, StandardCharsets.UTF_8));
         return httpHeaders;
     }
 
