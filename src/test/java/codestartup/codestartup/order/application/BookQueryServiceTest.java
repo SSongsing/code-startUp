@@ -1,6 +1,6 @@
 package codestartup.codestartup.order.application;
 
-import codestartup.codestartup.order.domain.BookRepository;
+import codestartup.codestartup.order.domain.repository.BookRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -10,10 +10,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 
-class OrderQueryServiceTest {
+class BookQueryServiceTest {
 
     @InjectMocks
-    OrderQueryService orderQueryService;
+    BookQueryService bookQueryService;
     @Mock
     BookRepository bookRepository;
 

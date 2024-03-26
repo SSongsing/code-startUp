@@ -1,9 +1,11 @@
 package codestartup.codestartup.order.application;
 
 import codestartup.codestartup.order.domain.Book;
-import codestartup.codestartup.order.domain.BookRepository;
-import codestartup.codestartup.order.domain.Discount;
-import codestartup.codestartup.order.domain.OrderBookCommand;
+import codestartup.codestartup.order.domain.Order;
+import codestartup.codestartup.order.domain.repository.BookRepository;
+import codestartup.codestartup.order.domain.DiscountUtils;
+import codestartup.codestartup.order.domain.commands.OrderBookCommand;
+import codestartup.codestartup.order.domain.repository.OrderRepository;
 import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.domain.view.PayDetailView;
 import codestartup.codestartup.order.domain.view.ReceiptView;
@@ -18,18 +20,22 @@ import java.util.Optional;
 @Service
 public class OrderCommandService {
     private final BookRepository bookRepository;
+    private final OrderRepository orderRepository;
 
     @Transactional(rollbackOn = {Exception.class})
     public OrderBookView orderBook(OrderBookCommand orderBookCommand) {
         Optional<Book> book = bookRepository.findById(Integer.parseInt(orderBookCommand.getItemId()));
         if (book.isEmpty() || book.get().getPrice() > orderBookCommand.getPayAmount()) return new OrderBookView();
 
-        List<Integer> discountList = Discount.getDiscountList(book.get());
+        List<Integer> discountList = DiscountUtils.getDiscountList(book.get());
         Integer discountPrice = discountList.stream().reduce(0, Integer::sum);
         Integer changeAmount = 0;
         if (orderBookCommand.getPayMethod().equals("CASH")) {
             changeAmount = orderBookCommand.getPayAmount() - book.get().getPrice() + discountPrice;
         }
+
+        Order order = new Order(orderBookCommand.getItemId(), orderBookCommand.getPayMethod());
+        orderRepository.saveAndFlush(order);
 
         ReceiptView receiptView = ReceiptView.builder()
                 .payMethod(orderBookCommand.getPayMethod())

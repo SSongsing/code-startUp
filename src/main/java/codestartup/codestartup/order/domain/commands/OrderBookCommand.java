@@ -1,4 +1,4 @@
-package codestartup.codestartup.order.domain;
+package codestartup.codestartup.order.domain.commands;
 
 import lombok.Builder;
 import lombok.Getter;

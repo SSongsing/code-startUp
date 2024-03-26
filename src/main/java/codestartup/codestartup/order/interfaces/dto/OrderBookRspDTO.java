@@ -1,13 +1,10 @@
 package codestartup.codestartup.order.interfaces.dto;
 
-import codestartup.codestartup.order.domain.OrderBookCommand;
 import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.domain.view.PayDetailView;
 import codestartup.codestartup.order.domain.view.ReceiptView;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;

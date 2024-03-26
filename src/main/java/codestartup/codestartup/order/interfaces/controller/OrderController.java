@@ -1,10 +1,11 @@
 package codestartup.codestartup.order.interfaces.controller;
 
 
+import codestartup.codestartup.common.BaseController;
 import codestartup.codestartup.order.application.OrderCommandService;
-import codestartup.codestartup.order.application.OrderQueryService;
+import codestartup.codestartup.order.application.BookQueryService;
 import codestartup.codestartup.order.domain.view.GetBookListView;
-import codestartup.codestartup.order.domain.OrderBookCommand;
+import codestartup.codestartup.order.domain.commands.OrderBookCommand;
 import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.interfaces.dto.GetBookListRspDTO;
 import codestartup.codestartup.order.interfaces.dto.OrderBookReqDTO;
@@ -19,17 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class OrderController {
-    private final OrderQueryService orderQueryService;
+public class OrderController extends BaseController {
     private final OrderCommandService orderCommandService;
 
-    @GetMapping("/books")
-    public ResponseEntity<GetBookListRspDTO> getBookList() {
-        GetBookListView getBookListView = orderQueryService.getBookList();
-        return new ResponseEntity<>(new GetBookListRspDTO(getBookListView), HttpStatus.OK);
-    }
-
-    @PostMapping("/books/orders")
+    @PostMapping("/orders")
     public ResponseEntity<Object> orderBook(@RequestBody OrderBookReqDTO orderBookReqDTO) {
         OrderBookCommand orderBookCommand = OrderBookCommand.builder()
                 .payAmount(orderBookReqDTO.getPayAmount())
@@ -37,6 +31,6 @@ public class OrderController {
                 .itemId(orderBookReqDTO.getItem().getId())
                 .build();
         OrderBookView orderBookView = orderCommandService.orderBook(orderBookCommand);
-        return new ResponseEntity<>(new OrderBookRspDTO(orderBookView), HttpStatus.OK);
+        return new ResponseEntity<>(new OrderBookRspDTO(orderBookView), getSuccessHeaders(), HttpStatus.OK);
     }
 }

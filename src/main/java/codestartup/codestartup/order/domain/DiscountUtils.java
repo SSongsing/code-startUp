@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Discount {
+public class DiscountUtils {
     private static Integer CATEGORY_FIXED_DISCOUNT_LIBERAL_ARTS = 1000;
     private static double DAY_RATE_DISCOUNT_FRIDAY = 0.1;
 
