@@ -5,6 +5,7 @@ import codestartup.codestartup.order.application.OrderCommandService;
 import codestartup.codestartup.order.application.OrderQueryService;
 import codestartup.codestartup.order.domain.view.GetBookListView;
 import codestartup.codestartup.order.domain.OrderBookCommand;
+import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.interfaces.dto.GetBookListRspDTO;
 import codestartup.codestartup.order.interfaces.dto.OrderBookReqDTO;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class OrderController {
                 .payMethod(orderBookReqDTO.getPayMethod())
                 .itemId(orderBookReqDTO.getItem().getId())
                 .build();
-        orderCommandService.orderBook(orderBookCommand);
-        return new ResponseEntity<>(HttpStatus.OK);
+        OrderBookView orderBookView = orderCommandService.orderBook(orderBookCommand);
+        return new ResponseEntity<>(orderBookView, HttpStatus.OK);
     }
 }

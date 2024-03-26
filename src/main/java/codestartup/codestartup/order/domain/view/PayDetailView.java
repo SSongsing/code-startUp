@@ -1,5 +1,6 @@
 package codestartup.codestartup.order.domain.view;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -12,11 +13,12 @@ public class PayDetailView {
     private List<Integer> discountList;
     private Integer changeAmount;
 
+    @Builder
     public PayDetailView(Integer originPrice, Integer discountPrice, Integer changeAmount, List<Integer> discountList) {
         this.originPrice = originPrice;
         this.discountPrice = discountPrice;
         this.changeAmount = changeAmount;
         this.discountList = new ArrayList<>();
-        discountList.addAll(discountList);
+        this.discountList.addAll(discountList);
     }
 }
