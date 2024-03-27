@@ -18,6 +18,8 @@ public class BookQueryService {
     private final BookRepository bookRepository;
 
     public GetBookListView getBookList() {
+        // TODO stream은 왜 사용할까?
+        // 2주차때 얘기
         List<GetBookView> books = bookRepository.findAll()
                 .stream()
                 .map(book -> GetBookView.builder()

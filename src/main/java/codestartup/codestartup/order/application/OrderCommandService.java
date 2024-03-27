@@ -26,11 +26,14 @@ public class OrderCommandService {
 
     @Transactional(rollbackOn = {Exception.class})
     public OrderBookView orderBook(OrderBookCommand orderBookCommand) {
+
         Book book = bookRepository.findById(Integer.parseInt(orderBookCommand.getItemId()))
                 .filter(b -> b.isBuyable(orderBookCommand.getPayAmount()))
                 .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
 
+
         List<Integer> discountList = DiscountUtils.getDiscountList(book);
+        // TODO: stream은 왜쓸까?
         Integer discountPrice = discountList.stream().reduce(0, Integer::sum);
         Integer changeAmount = 0;
         if (orderBookCommand.getPayMethod().equals("CASH")) {

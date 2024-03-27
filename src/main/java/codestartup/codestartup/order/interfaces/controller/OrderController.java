@@ -21,6 +21,11 @@ public class OrderController extends BaseController {
 
     @PostMapping("/orders")
     public ResponseEntity<Object> orderBook(@RequestBody OrderBookReqDTO orderBookReqDTO) {
+        // TODO: 검증
+        // cmd로 만들어 주는건? -> controller
+        // 할인률이 달라졌다면, 이 검증은 어디서 해야할까? -> service
+        // 응집도가 떨어짐.
+        // OrderVadlitor << 책임
         OrderBookCommand orderBookCommand = OrderBookCommand.builder()
                 .payAmount(orderBookReqDTO.getPayAmount())
                 .payMethod(orderBookReqDTO.getPayMethod())

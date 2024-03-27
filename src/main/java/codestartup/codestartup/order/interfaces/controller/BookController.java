@@ -18,7 +18,15 @@ public class BookController extends BaseController {
 
     @GetMapping("/books")
     public ResponseEntity<GetBookListRspDTO> getBookList() {
+
+        // TODO: View -> ResponseDTO 하는 이유?
         GetBookListView getBookListView = bookQueryService.getBookList();
         return new ResponseEntity<>(new GetBookListRspDTO(getBookListView), getSuccessHeaders(), HttpStatus.OK);
     }
+
+//    @GetMapping("/m/books/")
+//    public ResponseEntity<GetBookListRspDTO> getMoBookList() {
+//        GetBookListView getBookListView = bookQueryService.getBookList();
+//        return new ResponseEntity<>(new GetBookMobileListRspDTO(getBookListView), getSuccessHeaders(), HttpStatus.OK);
+//    }
 }
