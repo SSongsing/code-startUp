@@ -14,7 +14,3 @@ spring:
     console:
       path: /h2-console
       enabled: true
-  sql:
-    init:
-      schema-locations: classpath:static/schema.sql
-      data-locations: classpath:static/data.sql
