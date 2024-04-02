@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetBookView {
-    private Integer id;
+    private Long id;
     private String name;
     private String category;
     private Integer originPrice;

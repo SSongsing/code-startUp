@@ -24,13 +24,9 @@ public class Book {
 
     private String category;
 
-    private Integer price;
+    private Money price;
 
-    @Column(name = "reg_date", updatable = false)
-    @CreatedDate
-    private LocalDateTime regDate;
-
-    public Boolean isBuyable(Integer payAmount) {
+    public Boolean isBuyable(Money payAmount) {
         return payAmount >= this.price;
     }
 

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum CategoryType {
-    DEVELOPMENT("개발"),
+    IT("개발"),
     FINANCIAL_TECHNOLOGY("재테크"),
     LIBERAL_ARTS("교양")
     ;

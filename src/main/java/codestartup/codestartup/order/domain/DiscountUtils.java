@@ -19,12 +19,13 @@ public class DiscountUtils {
         List<DiscountPolicy> discountPolicies = new ArrayList<>();
 
         // ocp
-        for (DiscountPolicy discountPolicy : discountPolicies) {
-            if (discountPolicy.isDiscountable(book)) {
-                //
-//                return List.of(discountPolicy.getDiscountAmount(book));
-            }
-        }
+//        for (DiscountPolicy discountPolicy : discountPolicies) {
+//            if (discountPolicy.isDiscountable(book)) {
+//                System.out.println("TEST SUCCESS");
+//                //
+////                return List.of(discountPolicy.getDiscountAmount(book));
+//            }
+//        }
 
         ArrayList<Integer> discountList = new ArrayList<>();
 

@@ -23,7 +23,7 @@ public class GetBookListRspDTO extends CommonRspDTO {
 
     @Getter
     private static class GetBookRspDTO {
-        private Integer id;
+        private Long id;
         private String name;
         private String category;
         @JsonProperty("origin_price")
