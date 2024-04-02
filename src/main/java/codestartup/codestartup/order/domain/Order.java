@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Builder
-@Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
@@ -18,7 +17,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private Long id;
 
     @Column(name = "book_id")
     private String bookId;

@@ -55,9 +55,7 @@ public class OrderCommandService {
     private List<Integer> getDiscountList(Book book, DayOfWeek dayOfToday) {
         List<Integer> discountList = new ArrayList<>();
         for (DiscountPolicy discountPolicy : discountPolicies) {
-            if (StringUtils.equals(discountPolicy.getDiscountType(), "DAY") && discountPolicy.isDiscountable(dayOfToday)) {
-                discountList.add(discountPolicy.getDiscountAmount(book));
-            } else if (discountPolicy.isDiscountable(book)) {
+            if (discountPolicy.isDiscountable(book, dayOfToday)) {
                 discountList.add(discountPolicy.getDiscountAmount(book));
             }
         }
