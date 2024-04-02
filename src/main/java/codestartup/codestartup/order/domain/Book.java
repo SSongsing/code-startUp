@@ -1,6 +1,8 @@
 package codestartup.codestartup.order.domain;
 
+import codestartup.codestartup.order.domain.commands.OrderBookCommand;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -10,14 +12,13 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Builder
-@Table(name = "books")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -33,7 +34,12 @@ public class Book {
         return payAmount >= this.price;
     }
 
-
+    public Integer getChangeAmount(OrderBookCommand orderBookCommand, Integer discountPrice) {
+        if (StringUtils.equals("CASH", orderBookCommand.getPayMethod())) {
+            return orderBookCommand.getPayAmount() - this.price + discountPrice;
+        }
+        return 0;
+    }
     // TODO: DDD
     // boundary
     // agg
