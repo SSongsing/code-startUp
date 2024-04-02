@@ -1,9 +1,13 @@
 package codestartup.codestartup.order.application;
 
 import codestartup.codestartup.order.domain.Book;
+import codestartup.codestartup.order.domain.discount.DiscountPolicy;
+import codestartup.codestartup.order.domain.discount.FridayDiscountPolicy;
+import codestartup.codestartup.order.domain.discount.ITCategoryDiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
 import codestartup.codestartup.order.domain.view.GetBookListView;
 import codestartup.codestartup.order.domain.view.GetBookView;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,10 +23,23 @@ import static org.mockito.BDDMockito.given;
 @ExtendWith(MockitoExtension.class)
 class BookQueryServiceTest {
 
-    @InjectMocks
     BookQueryService bookQueryService;
     @Mock
     BookRepository bookRepository;
+    @Mock
+    private List<DiscountPolicy> discountPolicies;
+    @Mock
+    private ITCategoryDiscountPolicy itCategoryDiscountPolicy;
+    @Mock
+    private FridayDiscountPolicy fridayDiscountPolicy;
+
+    @BeforeEach
+    void setUp() {
+        discountPolicies = new ArrayList<>();
+        discountPolicies.add(itCategoryDiscountPolicy);
+        discountPolicies.add(fridayDiscountPolicy);
+        bookQueryService = new BookQueryService(bookRepository, discountPolicies);
+    }
 
     @Test
     void 할인없는조회_성공() {
