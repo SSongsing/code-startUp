@@ -25,10 +25,10 @@ class BookQueryServiceTest {
     BookRepository bookRepository;
 
     @Test
-    void getBookList() {
+    void 할인없는조회_성공() {
         List<Book> bookList = new ArrayList<>();
         Book book = Book.builder()
-                .id(1)
+                .id(1L)
                 .name("차근차근 개발")
                 .category("개발")
                 .price(5000000)
