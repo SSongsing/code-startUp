@@ -3,6 +3,7 @@ package codestartup.codestartup.order.application;
 import codestartup.codestartup.common.ApiException;
 import codestartup.codestartup.order.domain.Book;
 import codestartup.codestartup.order.domain.Order;
+import codestartup.codestartup.order.domain.discount.DiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
 import codestartup.codestartup.order.domain.DiscountUtils;
 import codestartup.codestartup.order.domain.commands.OrderBookCommand;
@@ -11,10 +12,14 @@ import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.domain.view.PayDetailView;
 import codestartup.codestartup.order.domain.view.ReceiptView;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +28,7 @@ import java.util.Optional;
 public class OrderCommandService {
     private final BookRepository bookRepository;
     private final OrderRepository orderRepository;
+    private final List<DiscountPolicy> discountPolicies;
 
     @Transactional(rollbackOn = {Exception.class})
     public OrderBookView orderBook(OrderBookCommand orderBookCommand) {
@@ -30,9 +36,7 @@ public class OrderCommandService {
         Book book = bookRepository.findById(Integer.parseInt(orderBookCommand.getItemId()))
                 .filter(b -> b.isBuyable(orderBookCommand.getPayAmount()))
                 .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
-
-
-        List<Integer> discountList = DiscountUtils.getDiscountList(book);
+        List<Integer> discountList = getDiscountList(book, LocalDateTime.now().getDayOfWeek());
         // TODO: stream은 왜쓸까?
         Integer discountPrice = discountList.stream().reduce(0, Integer::sum);
         Integer changeAmount = 0;
@@ -49,5 +53,17 @@ public class OrderCommandService {
                 .payDetail(new PayDetailView(book.getPrice(), discountPrice, changeAmount, discountList))
                 .build();
         return new OrderBookView(receiptView);
+    }
+
+    private List<Integer> getDiscountList(Book book, DayOfWeek dayOfToday) {
+        List<Integer> discountList = new ArrayList<>();
+        for (DiscountPolicy discountPolicy : discountPolicies) {
+            if (StringUtils.equals(discountPolicy.getDiscountType(), "DAY") && discountPolicy.isDiscountable(dayOfToday)) {
+                discountList.add(discountPolicy.getDiscountAmount(book));
+            } else if (discountPolicy.isDiscountable(book)) {
+                discountList.add(discountPolicy.getDiscountAmount(book));
+            }
+        }
+        return discountList;
     }
 }
