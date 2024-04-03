@@ -44,7 +44,7 @@
 //
 //    private static Integer getCategoryDiscount(Book book) {
 //
-//        return CategoryType.LIBERAL_ARTS.getValue().equals(book.getCategory()) ? CATEGORY_FIXED_DISCOUNT_LIBERAL_ARTS: 0;
+//        return CategoryType.LIBERAL_ARTS.getMoneyValue().equals(book.getCategory()) ? CATEGORY_FIXED_DISCOUNT_LIBERAL_ARTS: 0;
 //    }
 //
 //    private static Integer getDayDiscount(Integer currentDiscountPrice) {

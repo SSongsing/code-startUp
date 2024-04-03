@@ -3,11 +3,9 @@ package codestartup.codestartup.order.domain;
 import codestartup.codestartup.order.domain.commands.OrderBookCommand;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -33,9 +31,9 @@ public class Book {
     public Money getChangeAmount(OrderBookCommand orderBookCommand, Money discountPrice) {
         if (StringUtils.equals("CASH", orderBookCommand.getPayMethod())) {
             return new Money(
-                    orderBookCommand.getPayAmount().getValue()
-                            .subtract(this.price.getValue())
-                            .add(discountPrice.getValue())
+                    orderBookCommand.getPayAmount().getMoneyValue()
+                            .subtract(this.price.getMoneyValue())
+                            .add(discountPrice.getMoneyValue())
             );
         }
         return new Money(0);

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
@@ -12,22 +13,24 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Embeddable
 public class Money {
-    private BigDecimal value;
+    @Column(name = "price")
+    private BigDecimal moneyValue;
 
-    public Money(int value) {
-        this.value = BigDecimal.valueOf(value);
+    public Money(int moneyValue) {
+        this.moneyValue = BigDecimal.valueOf(moneyValue);
     }
 
     public boolean isGreaterThan(Money comparedMoney) {
-        return this.value.compareTo(comparedMoney.getValue()) > 1;
+        return this.moneyValue.compareTo(comparedMoney.getMoneyValue()) > 0;
     }
 
     public Money sum(Money sumValue) {
-        return new Money(sumValue.getValue().add(this.value));
+        return new Money(sumValue.getMoneyValue().add(this.moneyValue));
     }
 
     public Money subtract(Money subtractMoney) {
-        return new Money(this.value.subtract(subtractMoney.getValue()));
+        return new Money(this.moneyValue.subtract(subtractMoney.getMoneyValue()));
     }
 }

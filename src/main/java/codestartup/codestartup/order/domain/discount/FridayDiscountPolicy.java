@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 
 // TODO: 테스트 코드
 // 모든 코드를 테스트 할 필요가 없다
@@ -28,6 +27,6 @@ public class FridayDiscountPolicy implements DiscountPolicy {
     }
     @Override
     public Money getDiscountAmount(Book book) {
-        return new Money(book.getPrice().getValue().multiply(BigDecimal.valueOf(DISCOUNT_RATE)));
+        return new Money(book.getPrice().getMoneyValue().multiply(BigDecimal.valueOf(DISCOUNT_RATE)));
     }
 }

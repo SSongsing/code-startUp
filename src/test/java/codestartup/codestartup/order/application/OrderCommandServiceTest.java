@@ -10,17 +10,12 @@ import codestartup.codestartup.order.domain.discount.ITCategoryDiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
 import codestartup.codestartup.order.domain.repository.OrderRepository;
 import codestartup.codestartup.order.domain.view.OrderBookView;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class OrderCommandServiceTest {
@@ -64,7 +58,7 @@ class OrderCommandServiceTest {
         given(fridayDiscountPolicy.isDiscountable(any(), any())).willReturn(false);
 
         OrderBookView result = orderCommandService.orderBook(command);
-        assertEquals(new Money(1000).getValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getValue());
+        assertEquals(new Money(1000).getMoneyValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getMoneyValue());
     }
 
     @Test
@@ -78,7 +72,7 @@ class OrderCommandServiceTest {
         given(fridayDiscountPolicy.getDiscountAmount(any())).willReturn(new Money(2000));
 
         OrderBookView result = orderCommandService.orderBook(command);
-        assertEquals(new Money(2000).getValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getValue());
+        assertEquals(new Money(2000).getMoneyValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getMoneyValue());
     }
 
     @Test
@@ -93,6 +87,6 @@ class OrderCommandServiceTest {
         given(fridayDiscountPolicy.getDiscountAmount(any())).willReturn(new Money(2000));
 
         OrderBookView result = orderCommandService.orderBook(command);
-        assertEquals(new Money(3000).getValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getValue());
+        assertEquals(new Money(3000).getMoneyValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getMoneyValue());
     }
 }
