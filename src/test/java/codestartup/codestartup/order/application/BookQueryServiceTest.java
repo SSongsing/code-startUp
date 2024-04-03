@@ -1,6 +1,7 @@
 package codestartup.codestartup.order.application;
 
 import codestartup.codestartup.order.domain.Book;
+import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.discount.DiscountPolicy;
 import codestartup.codestartup.order.domain.discount.FridayDiscountPolicy;
 import codestartup.codestartup.order.domain.discount.ITCategoryDiscountPolicy;
@@ -48,11 +49,11 @@ class BookQueryServiceTest {
                 .id(1L)
                 .name("차근차근 개발")
                 .category("개발")
-                .price(5000000)
+                .price(new Money(5000000))
                 .build();
         bookList.add(book);
         List<GetBookView> getBookViewList = new ArrayList<>();
-        List<Integer> discountList = new ArrayList<>();
+        List<Money> discountList = new ArrayList<>();
         getBookViewList.add(GetBookView.builder().book(book).discountList(discountList).build());
         GetBookListView getBookListView = new GetBookListView(getBookViewList);
 

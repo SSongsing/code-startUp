@@ -1,9 +1,11 @@
 package codestartup.codestartup.order.domain.discount;
 
 import codestartup.codestartup.order.domain.Book;
+import codestartup.codestartup.order.domain.Money;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
@@ -25,7 +27,7 @@ public class FridayDiscountPolicy implements DiscountPolicy {
         return DISCOUNT_DAY_FRIDAY.equals(dayOfWeek);
     }
     @Override
-    public int getDiscountAmount(Book book) {
-        return (int) (book.getPrice() * DISCOUNT_RATE);
+    public Money getDiscountAmount(Book book) {
+        return new Money(book.getPrice().getValue().multiply(BigDecimal.valueOf(DISCOUNT_RATE)));
     }
 }

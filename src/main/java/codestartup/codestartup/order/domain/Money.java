@@ -15,4 +15,19 @@ import java.math.BigDecimal;
 public class Money {
     private BigDecimal value;
 
+    public Money(int value) {
+        this.value = BigDecimal.valueOf(value);
+    }
+
+    public boolean isGreaterThan(Money comparedMoney) {
+        return this.value.compareTo(comparedMoney.getValue()) > 1;
+    }
+
+    public Money sum(Money sumValue) {
+        return new Money(sumValue.getValue().add(this.value));
+    }
+
+    public Money subtract(Money subtractMoney) {
+        return new Money(this.value.subtract(subtractMoney.getValue()));
+    }
 }

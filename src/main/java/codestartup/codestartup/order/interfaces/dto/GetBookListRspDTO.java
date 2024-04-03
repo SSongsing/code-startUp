@@ -1,5 +1,6 @@
 package codestartup.codestartup.order.interfaces.dto;
 
+import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.view.GetBookListView;
 import codestartup.codestartup.order.domain.view.GetBookView;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,11 +28,11 @@ public class GetBookListRspDTO extends CommonRspDTO {
         private String name;
         private String category;
         @JsonProperty("origin_price")
-        private Integer originPrice;
+        private Money originPrice;
         @JsonProperty("discount_price")
-        private Integer discountPrice;
+        private Money discountPrice;
         @JsonProperty("discount_list")
-        private List<Integer> discountList;
+        private List<Money> discountList;
 
         public GetBookRspDTO(GetBookView getBookView) {
             this.id = getBookView.getId();

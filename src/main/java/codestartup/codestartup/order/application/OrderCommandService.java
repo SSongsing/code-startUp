@@ -2,10 +2,10 @@ package codestartup.codestartup.order.application;
 
 import codestartup.codestartup.common.ApiException;
 import codestartup.codestartup.order.domain.Book;
+import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.Order;
 import codestartup.codestartup.order.domain.discount.DiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
-import codestartup.codestartup.order.domain.DiscountUtils;
 import codestartup.codestartup.order.domain.commands.OrderBookCommand;
 import codestartup.codestartup.order.domain.repository.OrderRepository;
 import codestartup.codestartup.order.domain.view.OrderBookView;
@@ -36,10 +36,10 @@ public class OrderCommandService {
                 .filter(b -> b.isBuyable(orderBookCommand.getPayAmount()))
                 .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
 
-        List<Integer> discountList = getDiscountList(book, LocalDateTime.now().getDayOfWeek());
+        List<Money> discountList = getDiscountList(book, LocalDateTime.now().getDayOfWeek());
         // TODO: stream은 왜쓸까?
-        Integer discountPrice = discountList.stream().reduce(0, Integer::sum);
-        Integer changeAmount = book.getChangeAmount(orderBookCommand, discountPrice);
+        Money discountPrice = discountList.stream().reduce(new Money(0), Money::sum);
+        Money changeAmount = book.getChangeAmount(orderBookCommand, discountPrice);
 
         Order order = new Order(orderBookCommand.getItemId(), orderBookCommand.getPayMethod());
         orderRepository.saveAndFlush(order);
@@ -52,8 +52,8 @@ public class OrderCommandService {
         return new OrderBookView(receiptView);
     }
 
-    private List<Integer> getDiscountList(Book book, DayOfWeek dayOfToday) {
-        List<Integer> discountList = new ArrayList<>();
+    private List<Money> getDiscountList(Book book, DayOfWeek dayOfToday) {
+        List<Money> discountList = new ArrayList<>();
         for (DiscountPolicy discountPolicy : discountPolicies) {
             if (discountPolicy.isDiscountable(book, dayOfToday)) {
                 discountList.add(discountPolicy.getDiscountAmount(book));

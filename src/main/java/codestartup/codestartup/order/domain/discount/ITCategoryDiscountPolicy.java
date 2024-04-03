@@ -2,6 +2,7 @@ package codestartup.codestartup.order.domain.discount;
 
 import codestartup.codestartup.order.domain.Book;
 import codestartup.codestartup.order.domain.CategoryType;
+import codestartup.codestartup.order.domain.Money;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ public class ITCategoryDiscountPolicy implements DiscountPolicy{
     }
 
     @Override
-    public int getDiscountAmount(Book book) {
-        return 1000;
+    public Money getDiscountAmount(Book book) {
+        return new Money(1000);
     }
 }

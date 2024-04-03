@@ -1,5 +1,6 @@
 package codestartup.codestartup.order.domain.view;
 
+import codestartup.codestartup.order.domain.Money;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -7,6 +8,6 @@ import lombok.Getter;
 @Builder
 public class ReceiptView {
     private String payMethod;
-    private Integer payAmount;
+    private Money payAmount;
     private PayDetailView payDetail;
 }

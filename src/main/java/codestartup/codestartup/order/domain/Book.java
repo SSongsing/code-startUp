@@ -23,18 +23,22 @@ public class Book {
     private String name;
 
     private String category;
-
+    @Embedded
     private Money price;
 
     public Boolean isBuyable(Money payAmount) {
-        return payAmount >= this.price;
+        return !this.price.isGreaterThan(payAmount);
     }
 
-    public Integer getChangeAmount(OrderBookCommand orderBookCommand, Integer discountPrice) {
+    public Money getChangeAmount(OrderBookCommand orderBookCommand, Money discountPrice) {
         if (StringUtils.equals("CASH", orderBookCommand.getPayMethod())) {
-            return orderBookCommand.getPayAmount() - this.price + discountPrice;
+            return new Money(
+                    orderBookCommand.getPayAmount().getValue()
+                            .subtract(this.price.getValue())
+                            .add(discountPrice.getValue())
+            );
         }
-        return 0;
+        return new Money(0);
     }
     // TODO: DDD
     // boundary

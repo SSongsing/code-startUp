@@ -1,5 +1,6 @@
 package codestartup.codestartup.order.interfaces.dto;
 
+import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.domain.view.PayDetailView;
 import codestartup.codestartup.order.domain.view.ReceiptView;
@@ -26,7 +27,7 @@ public class OrderBookRspDTO extends CommonRspDTO {
     @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Receipt {
         private String payMethod;
-        private Integer payAmount;
+        private Money payAmount;
         private PayDetail payDetail;
 
         public Receipt(ReceiptView receiptView) {
@@ -40,10 +41,10 @@ public class OrderBookRspDTO extends CommonRspDTO {
     @Getter
     @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     private static class PayDetail {
-        private Integer originPrice;
-        private Integer discountPrice;
-        private List<Integer> discountList;
-        private Integer changeAmount;
+        private Money originPrice;
+        private Money discountPrice;
+        private List<Money> discountList;
+        private Money changeAmount;
 
         public PayDetail(PayDetailView payDetailView) {
             this.originPrice = payDetailView.getOriginPrice();

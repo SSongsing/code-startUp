@@ -1,6 +1,7 @@
 package codestartup.codestartup.order.application;
 
 import codestartup.codestartup.order.domain.Book;
+import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.discount.DiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
 import codestartup.codestartup.order.domain.view.GetBookListView;
@@ -13,8 +14,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static codestartup.codestartup.order.domain.DiscountUtils.getDiscountList;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -41,8 +40,8 @@ public class BookQueryService {
         return new GetBookListView(books);
     }
 
-    private List<Integer> getDiscountList(Book book, DayOfWeek dayOfToday) {
-        List<Integer> discountList = new ArrayList<>();
+    private List<Money> getDiscountList(Book book, DayOfWeek dayOfToday) {
+        List<Money> discountList = new ArrayList<>();
         for (DiscountPolicy discountPolicy : discountPolicies) {
             if (discountPolicy.isDiscountable(book, dayOfToday)) {
                 discountList.add(discountPolicy.getDiscountAmount(book));
