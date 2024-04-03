@@ -3,7 +3,7 @@ package codestartup.codestartup.order.application;
 import codestartup.codestartup.order.domain.Book;
 import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.discount.DiscountPolicy;
-import codestartup.codestartup.order.domain.discount.FridayDiscountPolicy;
+import codestartup.codestartup.order.domain.discount.DayDiscountPolicy;
 import codestartup.codestartup.order.domain.discount.ITCategoryDiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
 import codestartup.codestartup.order.domain.view.GetBookListView;
@@ -11,7 +11,6 @@ import codestartup.codestartup.order.domain.view.GetBookView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -32,7 +31,7 @@ class BookQueryServiceTest {
     @Mock
     private ITCategoryDiscountPolicy itCategoryDiscountPolicy;
     @Mock
-    private FridayDiscountPolicy fridayDiscountPolicy;
+    private DayDiscountPolicy fridayDiscountPolicy;
 
     @BeforeEach
     void setUp() {

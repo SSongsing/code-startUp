@@ -8,6 +8,7 @@ import lombok.Getter;
 @Builder
 public class OrderBookCommand {
     private String itemId;
+    // TODO: card | 현금
     private String payMethod;
     private Money payAmount;
 }

@@ -37,13 +37,20 @@ public class OrderCommandService {
                 .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
 
         List<Money> discountList = getDiscountList(book, LocalDateTime.now().getDayOfWeek());
-        // TODO: stream은 왜쓸까?
-        Money discountPrice = discountList.stream().reduce(new Money(0), Money::sum);
+
+        Money discountPrice = discountList.stream().reduce(Money.ZERO, Money::sum);
         Money changeAmount = book.getChangeAmount(orderBookCommand, discountPrice);
+
+        // TODO: 다형성으로 뺄수있지않을까?
+        // Card api call
+        // Cash
+        // string
+        // payMethod.pay()
 
         Order order = new Order(orderBookCommand.getItemId(), orderBookCommand.getPayMethod());
         orderRepository.saveAndFlush(order);
 
+        // TODO: builder
         ReceiptView receiptView = ReceiptView.builder()
                 .payMethod(orderBookCommand.getPayMethod())
                 .payAmount(orderBookCommand.getPayAmount())

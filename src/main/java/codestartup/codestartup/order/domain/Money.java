@@ -9,13 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
-// TODO: 불변 값 객체로 만들어 볼 것. 2주차 얘기 해볼께요
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Embeddable
 public class Money {
-    @Column(name = "price")
     private BigDecimal moneyValue;
 
     public Money(int moneyValue) {
@@ -33,4 +29,11 @@ public class Money {
     public Money subtract(Money subtractMoney) {
         return new Money(this.moneyValue.subtract(subtractMoney.getMoneyValue()));
     }
+
+    public static Money of(int moneyValue) {
+        return new Money(moneyValue);
+    }
+
+    public static Money ZERO = new Money(0);
+
 }

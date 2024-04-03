@@ -5,7 +5,7 @@ import codestartup.codestartup.order.domain.CategoryType;
 import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.commands.OrderBookCommand;
 import codestartup.codestartup.order.domain.discount.DiscountPolicy;
-import codestartup.codestartup.order.domain.discount.FridayDiscountPolicy;
+import codestartup.codestartup.order.domain.discount.DayDiscountPolicy;
 import codestartup.codestartup.order.domain.discount.ITCategoryDiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
 import codestartup.codestartup.order.domain.repository.OrderRepository;
@@ -38,7 +38,7 @@ class OrderCommandServiceTest {
     @Mock
     private ITCategoryDiscountPolicy itCategoryDiscountPolicy;
     @Mock
-    private FridayDiscountPolicy fridayDiscountPolicy;
+    private DayDiscountPolicy fridayDiscountPolicy;
 
     @BeforeEach
     void setUp() {

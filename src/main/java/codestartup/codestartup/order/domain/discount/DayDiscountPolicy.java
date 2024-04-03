@@ -8,14 +8,16 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 
-// TODO: 테스트 코드
-// 모든 코드를 테스트 할 필요가 없다
-// 중요한 테스트만,
-// 테스트가 가능하도록 설계 하는 것 == OOP
 
 @Component
 @NoArgsConstructor
-public class FridayDiscountPolicy implements DiscountPolicy {
+public class DayDiscountPolicy implements DiscountPolicy {
+
+    public DayDiscountPolicy(DayOfWeek DISCOUNT_DAY_FRIDAY, String discountType, double DISCOUNT_RATE) {
+        this.DISCOUNT_DAY_FRIDAY = DISCOUNT_DAY_FRIDAY;
+        this.discountType = discountType;
+        this.DISCOUNT_RATE = DISCOUNT_RATE;
+    }
 
     private DayOfWeek DISCOUNT_DAY_FRIDAY = DayOfWeek.FRIDAY;
     private String discountType = "DAY";
@@ -23,6 +25,7 @@ public class FridayDiscountPolicy implements DiscountPolicy {
 
     @Override
     public boolean isDiscountable(Book book, DayOfWeek dayOfWeek) {
+
         return DISCOUNT_DAY_FRIDAY.equals(dayOfWeek);
     }
     @Override
