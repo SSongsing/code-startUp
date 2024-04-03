@@ -67,32 +67,32 @@ class OrderCommandServiceTest {
         assertEquals(new Money(1000).getValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getValue());
     }
 
-//    @Test
-//    void 금요일_할인_적용() {
-//        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethod("CASH").payAmount(50000).build();
-//        Book book = Book.builder().id(1L).price(20000).name("test").category(CategoryType.IT.getValue()).build();
-//
-//        given(bookRepository.findById(any())).willReturn(Optional.of(book));
-//        given(itCategoryDiscountPolicy.isDiscountable(any(),any())).willReturn(false);
-//        given(fridayDiscountPolicy.isDiscountable(any(), any())).willReturn(true);
-//        given(fridayDiscountPolicy.getDiscountAmount(any())).willReturn(2000);
-//
-//        OrderBookView result = orderCommandService.orderBook(command);
-//        assertEquals(2000, result.getReceiptView().getPayDetail().getDiscountPrice());
-//    }
-//
-//    @Test
-//    void 할인_중복_적용() {
-//        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethod("CASH").payAmount(50000).build();
-//        Book book = Book.builder().id(1L).price(20000).name("test").category(CategoryType.IT.getValue()).build();
-//
-//        given(bookRepository.findById(any())).willReturn(Optional.of(book));
-//        given(itCategoryDiscountPolicy.isDiscountable(any(),any())).willReturn(true);
-//        given(itCategoryDiscountPolicy.getDiscountAmount(any())).willReturn(1000);
-//        given(fridayDiscountPolicy.isDiscountable(any(), any())).willReturn(true);
-//        given(fridayDiscountPolicy.getDiscountAmount(any())).willReturn(2000);
-//
-//        OrderBookView result = orderCommandService.orderBook(command);
-//        assertEquals(3000, result.getReceiptView().getPayDetail().getDiscountPrice());
-//    }
+    @Test
+    void 금요일_할인_적용() {
+        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethod("CASH").payAmount(new Money(50000)).build();
+        Book book = Book.builder().id(1L).price(new Money(20000)).name("test").category(CategoryType.IT.getValue()).build();
+
+        given(bookRepository.findById(any())).willReturn(Optional.of(book));
+        given(itCategoryDiscountPolicy.isDiscountable(any(),any())).willReturn(false);
+        given(fridayDiscountPolicy.isDiscountable(any(), any())).willReturn(true);
+        given(fridayDiscountPolicy.getDiscountAmount(any())).willReturn(new Money(2000));
+
+        OrderBookView result = orderCommandService.orderBook(command);
+        assertEquals(new Money(2000).getValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getValue());
+    }
+
+    @Test
+    void 할인_중복_적용() {
+        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethod("CASH").payAmount(new Money(50000)).build();
+        Book book = Book.builder().id(1L).price(new Money(20000)).name("test").category(CategoryType.IT.getValue()).build();
+
+        given(bookRepository.findById(any())).willReturn(Optional.of(book));
+        given(itCategoryDiscountPolicy.isDiscountable(any(),any())).willReturn(true);
+        given(itCategoryDiscountPolicy.getDiscountAmount(any())).willReturn(new Money(1000));
+        given(fridayDiscountPolicy.isDiscountable(any(), any())).willReturn(true);
+        given(fridayDiscountPolicy.getDiscountAmount(any())).willReturn(new Money(2000));
+
+        OrderBookView result = orderCommandService.orderBook(command);
+        assertEquals(new Money(3000).getValue(), result.getReceiptView().getPayDetail().getDiscountPrice().getValue());
+    }
 }
