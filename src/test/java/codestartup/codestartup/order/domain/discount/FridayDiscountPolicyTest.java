@@ -29,6 +29,6 @@ class FridayDiscountPolicyTest {
 
         Money discountAmount = fridayDiscountPolicy.getDiscountAmount(book);
 
-        assertEquals(new Money(2000), discountAmount);
+        assertEquals(new Money(2000).getMoneyValue(), discountAmount.getMoneyValue());
     }
 }
