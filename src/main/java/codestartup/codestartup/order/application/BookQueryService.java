@@ -4,7 +4,6 @@ import codestartup.codestartup.order.domain.Book;
 import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.discount.DiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
-import codestartup.codestartup.order.domain.repository.DiscountRepository;
 import codestartup.codestartup.order.domain.view.GetBookListView;
 import codestartup.codestartup.order.domain.view.GetBookView;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

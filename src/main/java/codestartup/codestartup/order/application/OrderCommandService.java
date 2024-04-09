@@ -51,11 +51,8 @@ public class OrderCommandService {
         orderRepository.saveAndFlush(order);
 
         // TODO: builder
-        ReceiptView receiptView = ReceiptView.builder()
-                .payMethod(orderBookCommand.getPayMethod())
-                .payAmount(orderBookCommand.getPayAmount())
-                .payDetail(new PayDetailView(book.getPrice(), discountPrice, changeAmount, discountList))
-                .build();
+        PayDetailView payDetailView = new PayDetailView(book.getPrice(), discountPrice, changeAmount, discountList);
+        ReceiptView receiptView = new ReceiptView(orderBookCommand, payDetailView);
         return new OrderBookView(receiptView);
     }
 
