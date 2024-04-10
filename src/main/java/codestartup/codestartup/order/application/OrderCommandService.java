@@ -47,7 +47,7 @@ public class OrderCommandService {
         // string
         // payMethod.pay()
 
-        Order order = new Order(orderBookCommand.getItemId(), orderBookCommand.getPayMethod());
+        Order order = new Order(orderBookCommand);
         orderRepository.saveAndFlush(order);
 
         // TODO: builder

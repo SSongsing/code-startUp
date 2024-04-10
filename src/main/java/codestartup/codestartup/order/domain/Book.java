@@ -29,7 +29,7 @@ public class Book {
     }
 
     public Money getChangeAmount(OrderBookCommand orderBookCommand, Money discountPrice) {
-        if (StringUtils.equals("CASH", orderBookCommand.getPayMethod())) {
+        if (StringUtils.equals(PayMethod.CASH.getValue(), orderBookCommand.getPayMethod().getValue())) {
             return new Money(
                     orderBookCommand.getPayAmount().getMoneyValue()
                             .subtract(this.price.getMoneyValue())

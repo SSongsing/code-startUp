@@ -1,5 +1,6 @@
 package codestartup.codestartup.order.interfaces.validation;
 
+import codestartup.codestartup.order.domain.PayMethod;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.Constraint;
@@ -20,7 +21,7 @@ public @interface PayMethodValidation {
 
         @Override
         public boolean isValid(String value, ConstraintValidatorContext context) {
-            return StringUtils.equals(value, "CASH") || StringUtils.equals(value, "CARD");
+            return PayMethod.contains(value);
         }
     }
 }

@@ -1,5 +1,6 @@
 package codestartup.codestartup.order.domain;
 
+import codestartup.codestartup.order.domain.commands.OrderBookCommand;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,16 +21,16 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String bookId;
+    private Long bookId;
 
     private String payMethod;
 
     @CreatedDate
     private LocalDateTime regDate;
 
-    public Order(String bookId, String payMethod) {
-        this.bookId = bookId;
-        this.payMethod = payMethod;
+    public Order(OrderBookCommand orderBookCommand) {
+        this.bookId = Long.valueOf(orderBookCommand.getItemId());
+        this.payMethod = orderBookCommand.getPayMethod().getValue();
     }
 
 }

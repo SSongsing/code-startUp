@@ -31,7 +31,7 @@ public class OrderBookRspDTO extends CommonRspDTO {
         private PayDetail payDetail;
 
         public Receipt(ReceiptView receiptView) {
-            this.payMethod = receiptView.getPayMethod();
+            this.payMethod = receiptView.getPayMethod().getValue();
             this.payAmount = receiptView.getPayAmount();
             this.payDetail = new PayDetail(receiptView.getPayDetail());
         }
