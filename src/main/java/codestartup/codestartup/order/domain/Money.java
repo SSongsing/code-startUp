@@ -8,14 +8,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Getter
-@AllArgsConstructor
 public class Money {
     private BigDecimal moneyValue;
 
     public Money(int moneyValue) {
         this.moneyValue = BigDecimal.valueOf(moneyValue);
+    }
+
+    public Money(BigDecimal moneyValue) {
+        this.moneyValue = moneyValue.setScale(0, RoundingMode.DOWN);
     }
 
     public boolean isGreaterThan(Money comparedMoney) {
@@ -31,6 +35,10 @@ public class Money {
 
     public Money subtract(Money subtractMoney) {
         return new Money(this.moneyValue.subtract(subtractMoney.getMoneyValue()));
+    }
+
+    public Money multiply(BigDecimal multiplyNumber) {
+        return new Money(this.moneyValue.multiply(multiplyNumber));
     }
 
     public static Money of(int moneyValue) {

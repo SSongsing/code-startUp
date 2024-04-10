@@ -23,7 +23,7 @@ class DayDiscountPolicyTest {
     @Test
     void 금요일_10프로_할인_성공() {
         Book book = Book.builder().id(1L).price(new Money(20000)).name("test").category(CategoryType.IT.getValue()).build();
-        DayDiscountPolicy fridayDiscountPolicy = new DayDiscountPolicy();
+        DayDiscountPolicy fridayDiscountPolicy = new DayDiscountPolicy(FRIDAY, FRIDAY, 0.1);
 
         Money discountAmount = fridayDiscountPolicy.getDiscountAmount(book);
 
