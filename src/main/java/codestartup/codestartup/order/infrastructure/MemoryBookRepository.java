@@ -21,7 +21,7 @@ public class MemoryBookRepository implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findById(Integer id) {
+    public Optional<Book> findById(Long id) {
         return Optional.ofNullable(store.get(id));
     }
 }

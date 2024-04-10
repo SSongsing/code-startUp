@@ -20,16 +20,19 @@ import java.util.List;
 @Service
 public class BookQueryService {
     private final BookRepository bookRepository;
-    private final List<DiscountPolicy> discountPolicies;
+    // TODO: discountRepository로 변경하기 것도 좋지만 service 로 빼도 좋다.
+    private final DiscountService discountService;
 
     public GetBookListView getBookList() {
-        // TODO stream은 왜 사용할까?
         // 2주차때 얘기
         List<Book> bookList = bookRepository.findAll();
         List<GetBookView> books = new ArrayList<>();
         for (Book book : bookList) {
-            books.add(GetBookView.builder().book(book).discountList(getDiscountList(book, LocalDateTime.now().getDayOfWeek())).build());
+            // TODO: builder == 많이 알고있다 == 커플링 == 강결합 == 결합도는 항상 낮추는게 좋다
+            List<Money> discountList = discountService.getDiscountList(book);
+            books.add(new GetBookView(book, discountList ));
         }
+
 //        List<GetBookView> books = bookRepository.findAll()
 //                .stream()
 //                .map(book -> GetBookView.builder()
@@ -38,15 +41,5 @@ public class BookQueryService {
 //                        .build())
 //                .toList();
         return new GetBookListView(books);
-    }
-
-    private List<Money> getDiscountList(Book book, DayOfWeek dayOfToday) {
-        List<Money> discountList = new ArrayList<>();
-        for (DiscountPolicy discountPolicy : discountPolicies) {
-            if (discountPolicy.isDiscountable(book, dayOfToday)) {
-                discountList.add(discountPolicy.getDiscountAmount(book));
-            }
-        }
-        return discountList;
     }
 }

@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface BookRepository {
     List<Book> findAll();
-    Optional<Book> findById(Integer id);
+    Optional<Book> findById(Long id);
 }

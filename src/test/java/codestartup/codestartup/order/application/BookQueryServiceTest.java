@@ -3,8 +3,7 @@ package codestartup.codestartup.order.application;
 import codestartup.codestartup.order.domain.Book;
 import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.discount.DiscountPolicy;
-import codestartup.codestartup.order.domain.discount.FridayDiscountPolicy;
-import codestartup.codestartup.order.domain.discount.ITCategoryDiscountPolicy;
+import codestartup.codestartup.order.domain.discount.DayDiscountPolicy;
 import codestartup.codestartup.order.domain.repository.BookRepository;
 import codestartup.codestartup.order.domain.view.GetBookListView;
 import codestartup.codestartup.order.domain.view.GetBookView;
@@ -19,28 +18,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class BookQueryServiceTest {
 
+    @InjectMocks
     BookQueryService bookQueryService;
     @Mock
     BookRepository bookRepository;
     @Mock
-    private List<DiscountPolicy> discountPolicies;
-    @Mock
-    private ITCategoryDiscountPolicy itCategoryDiscountPolicy;
-    @Mock
-    private FridayDiscountPolicy fridayDiscountPolicy;
+    DiscountService discountService;
 
-    @BeforeEach
-    void setUp() {
-        discountPolicies = new ArrayList<>();
-        discountPolicies.add(itCategoryDiscountPolicy);
-        discountPolicies.add(fridayDiscountPolicy);
-        bookQueryService = new BookQueryService(bookRepository, discountPolicies);
-    }
 
     @Test
     void 할인없는조회_성공() {
@@ -58,6 +48,7 @@ class BookQueryServiceTest {
         GetBookListView getBookListView = new GetBookListView(getBookViewList);
 
         given(bookRepository.findAll()).willReturn(bookList);
+        given(discountService.getDiscountList(any())).willReturn(discountList);
         GetBookListView result = bookQueryService.getBookList();
 
         assertThat(getBookListView).usingRecursiveComparison().isEqualTo(result);

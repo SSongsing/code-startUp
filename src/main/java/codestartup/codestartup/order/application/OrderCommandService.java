@@ -26,39 +26,33 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class OrderCommandService {
+    private final DiscountService discountService;
+    private final PayService payService;
     private final BookRepository bookRepository;
     private final OrderRepository orderRepository;
-    private final List<DiscountPolicy> discountPolicies;
 
     @Transactional(rollbackOn = {Exception.class})
     public OrderBookView orderBook(OrderBookCommand orderBookCommand) {
-        Book book = bookRepository.findById(Integer.parseInt(orderBookCommand.getItemId()))
+        Book book = bookRepository.findById(orderBookCommand.getBookId())
                 .filter(b -> b.isBuyable(orderBookCommand.getPayAmount()))
                 .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
 
-        List<Money> discountList = getDiscountList(book, LocalDateTime.now().getDayOfWeek());
-        // TODO: stream은 왜쓸까?
-        Money discountPrice = discountList.stream().reduce(new Money(0), Money::sum);
-        Money changeAmount = book.getChangeAmount(orderBookCommand, discountPrice);
+        List<Money> discountList = discountService.getDiscountList(book);
 
-        Order order = new Order(orderBookCommand.getItemId(), orderBookCommand.getPayMethod());
+        Money discountPrice = discountList.stream().reduce(Money.ZERO, Money::sum);
+        // TODO: 다형성으로 뺄수있지않을까?
+        // Card api call
+        // Cash
+        // string
+        // payMethod.pay()
+        Money changeAmount = payService.pay(orderBookCommand, book.getPrice(), discountPrice);
+
+        Order order = orderBookCommand.toEntity();
         orderRepository.saveAndFlush(order);
 
-        ReceiptView receiptView = ReceiptView.builder()
-                .payMethod(orderBookCommand.getPayMethod())
-                .payAmount(orderBookCommand.getPayAmount())
-                .payDetail(new PayDetailView(book.getPrice(), discountPrice, changeAmount, discountList))
-                .build();
+        // TODO: builder
+        PayDetailView payDetailView = new PayDetailView(book.getPrice(), discountPrice, changeAmount, discountList);
+        ReceiptView receiptView = new ReceiptView(orderBookCommand, payDetailView);
         return new OrderBookView(receiptView);
-    }
-
-    private List<Money> getDiscountList(Book book, DayOfWeek dayOfToday) {
-        List<Money> discountList = new ArrayList<>();
-        for (DiscountPolicy discountPolicy : discountPolicies) {
-            if (discountPolicy.isDiscountable(book, dayOfToday)) {
-                discountList.add(discountPolicy.getDiscountAmount(book));
-            }
-        }
-        return discountList;
     }
 }

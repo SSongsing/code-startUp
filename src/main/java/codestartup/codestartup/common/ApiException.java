@@ -15,4 +15,10 @@ public class ApiException extends RuntimeException {
         this.message = message;
         this.httpStatus = httpStatus;
     }
+
+    public ApiException(String message) {
+        super(message);
+        this.message = message;
+        this.httpStatus = HttpStatus.BAD_REQUEST;
+    }
 }
