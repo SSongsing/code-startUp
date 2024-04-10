@@ -8,6 +8,7 @@ import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.interfaces.dto.OrderBookReqDTO;
 import codestartup.codestartup.order.interfaces.dto.OrderBookRspDTO;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,11 +29,7 @@ public class OrderController extends BaseController {
         // 할인률이 달라졌다면, 이 검증은 어디서 해야할까? -> service
         // 응집도가 떨어짐.
         // OrderVadlitor << 책임
-        OrderBookCommand orderBookCommand = OrderBookCommand.builder()
-                .payAmount(orderBookReqDTO.getPayAmount())
-                .payMethodType(orderBookReqDTO.getPayMethod())
-                .itemId(orderBookReqDTO.getItem().getId())
-                .build();
+        OrderBookCommand orderBookCommand = new OrderBookCommand(orderBookReqDTO);
         OrderBookView orderBookView = orderCommandService.orderBook(orderBookCommand);
         return new ResponseEntity<>(new OrderBookRspDTO(orderBookView), getSuccessHeaders(), HttpStatus.OK);
     }

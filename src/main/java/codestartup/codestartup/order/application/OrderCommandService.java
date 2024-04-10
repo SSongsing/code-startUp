@@ -47,7 +47,7 @@ public class OrderCommandService {
         // payMethod.pay()
         Money changeAmount = payService.pay(orderBookCommand, book.getPrice(), discountPrice);
 
-        Order order = new Order(orderBookCommand);
+        Order order = orderBookCommand.toEntity();
         orderRepository.saveAndFlush(order);
 
         // TODO: builder
