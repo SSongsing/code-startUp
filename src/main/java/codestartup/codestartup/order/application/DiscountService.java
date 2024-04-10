@@ -20,7 +20,7 @@ public class DiscountService {
     public List<Money> getDiscountList(Book book, DayOfWeek dayOfToday) {
         List<Money> discountList = new ArrayList<>();
         for (DiscountPolicy discountPolicy : discountPolicies) {
-            if (discountPolicy.isDiscountable(book, dayOfToday)) {
+            if (discountPolicy.isDiscountable(book)) {
                 discountList.add(discountPolicy.getDiscountAmount(book));
             }
         }
