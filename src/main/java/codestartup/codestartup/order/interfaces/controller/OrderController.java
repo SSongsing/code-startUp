@@ -30,7 +30,7 @@ public class OrderController extends BaseController {
         // OrderVadlitor << 책임
         OrderBookCommand orderBookCommand = OrderBookCommand.builder()
                 .payAmount(orderBookReqDTO.getPayAmount())
-                .payMethod(orderBookReqDTO.getPayMethod())
+                .payMethodType(orderBookReqDTO.getPayMethod())
                 .itemId(orderBookReqDTO.getItem().getId())
                 .build();
         OrderBookView orderBookView = orderCommandService.orderBook(orderBookCommand);

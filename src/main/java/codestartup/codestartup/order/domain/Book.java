@@ -28,17 +28,6 @@ public class Book {
         return !this.price.isGreaterThan(payAmount);
     }
 
-    public Money getChangeAmount(OrderBookCommand orderBookCommand, Money discountPrice) {
-        if (StringUtils.equals(PayMethod.CASH.getValue(), orderBookCommand.getPayMethod().getValue())) {
-            return new Money(
-                    orderBookCommand.getPayAmount().getMoneyValue()
-                            .subtract(this.price.getMoneyValue())
-                            .add(discountPrice.getMoneyValue())
-            );
-        }
-        return new Money(0);
-    }
-
     private String page;
     private String author;
 }

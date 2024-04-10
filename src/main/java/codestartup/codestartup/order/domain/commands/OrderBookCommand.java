@@ -1,7 +1,7 @@
 package codestartup.codestartup.order.domain.commands;
 
 import codestartup.codestartup.order.domain.Money;
-import codestartup.codestartup.order.domain.PayMethod;
+import codestartup.codestartup.order.domain.PayMethodType;
 import codestartup.codestartup.order.interfaces.dto.OrderBookReqDTO;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,12 +10,12 @@ import lombok.Getter;
 @Builder
 public class OrderBookCommand {
     private String itemId;
-    private PayMethod payMethod;
+    private PayMethodType payMethodType;
     private Money payAmount;
 
     public OrderBookCommand(OrderBookReqDTO orderBookReqDTO) {
         this.itemId = orderBookReqDTO.getItem().getId();
-        this.payMethod = PayMethod.fromValue(orderBookReqDTO.getPayMethod());
+        this.payMethodType = PayMethodType.fromValue(orderBookReqDTO.getPayMethod());
         this.payAmount = orderBookReqDTO.getPayAmount();
     }
 }

@@ -49,7 +49,7 @@ class OrderCommandServiceTest {
     }
     @Test
     void IT_카테고리_할인_적용() {
-        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethod("CASH").payAmount(new Money(50000)).build();
+        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethodType("CASH").payAmount(new Money(50000)).build();
         Book book = Book.builder().id(1L).price(new Money(20000)).name("test").category(CategoryType.IT.getValue()).build();
 
         given(bookRepository.findById(any())).willReturn(Optional.of(book));
@@ -63,7 +63,7 @@ class OrderCommandServiceTest {
 
     @Test
     void 금요일_할인_적용() {
-        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethod("CASH").payAmount(new Money(50000)).build();
+        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethodType("CASH").payAmount(new Money(50000)).build();
         Book book = Book.builder().id(1L).price(new Money(20000)).name("test").category(CategoryType.IT.getValue()).build();
 
         given(bookRepository.findById(any())).willReturn(Optional.of(book));
@@ -77,7 +77,7 @@ class OrderCommandServiceTest {
 
     @Test
     void 할인_중복_적용() {
-        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethod("CASH").payAmount(new Money(50000)).build();
+        OrderBookCommand command = OrderBookCommand.builder().itemId("1").payMethodType("CASH").payAmount(new Money(50000)).build();
         Book book = Book.builder().id(1L).price(new Money(20000)).name("test").category(CategoryType.IT.getValue()).build();
 
         given(bookRepository.findById(any())).willReturn(Optional.of(book));
