@@ -30,7 +30,7 @@ public class Order {
 
     public Order(OrderBookCommand orderBookCommand) {
         this.bookId = Long.valueOf(orderBookCommand.getItemId());
-        this.payMethod = orderBookCommand.getPayMethod().getValue();
+        this.payMethod = orderBookCommand.getPayMethodType().getValue();
     }
 
 }

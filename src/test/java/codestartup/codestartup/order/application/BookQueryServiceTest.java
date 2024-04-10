@@ -28,10 +28,6 @@ class BookQueryServiceTest {
     BookRepository bookRepository;
     @Mock
     private List<DiscountPolicy> discountPolicies;
-    @Mock
-    private ITCategoryDiscountPolicy itCategoryDiscountPolicy;
-    @Mock
-    private DayDiscountPolicy fridayDiscountPolicy;
 
     @BeforeEach
     void setUp() {

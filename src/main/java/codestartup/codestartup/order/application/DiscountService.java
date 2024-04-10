@@ -16,6 +16,7 @@ import java.util.List;
 public class DiscountService {
     private final List<DiscountPolicy> discountPolicies;
 
+    @Transactional
     public List<Money> getDiscountList(Book book, DayOfWeek dayOfToday) {
         List<Money> discountList = new ArrayList<>();
         for (DiscountPolicy discountPolicy : discountPolicies) {

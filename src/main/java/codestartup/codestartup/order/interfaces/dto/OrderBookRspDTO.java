@@ -4,9 +4,7 @@ import codestartup.codestartup.order.domain.Money;
 import codestartup.codestartup.order.domain.view.OrderBookView;
 import codestartup.codestartup.order.domain.view.PayDetailView;
 import codestartup.codestartup.order.domain.view.ReceiptView;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +29,7 @@ public class OrderBookRspDTO extends CommonRspDTO {
         private PayDetail payDetail;
 
         public Receipt(ReceiptView receiptView) {
-            this.payMethod = receiptView.getPayMethod().getValue();
+            this.payMethod = receiptView.getPayMethodType().getValue();
             this.payAmount = receiptView.getPayAmount();
             this.payDetail = new PayDetail(receiptView.getPayDetail());
         }

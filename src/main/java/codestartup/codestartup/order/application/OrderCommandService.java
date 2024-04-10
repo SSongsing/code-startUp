@@ -27,6 +27,7 @@ import java.util.Optional;
 @Service
 public class OrderCommandService {
     private final DiscountService discountService;
+    private final PayService payService;
     private final BookRepository bookRepository;
     private final OrderRepository orderRepository;
 
@@ -39,13 +40,12 @@ public class OrderCommandService {
         List<Money> discountList = discountService.getDiscountList(book, LocalDateTime.now().getDayOfWeek());
 
         Money discountPrice = discountList.stream().reduce(Money.ZERO, Money::sum);
-        Money changeAmount = book.getChangeAmount(orderBookCommand, discountPrice);
-
         // TODO: 다형성으로 뺄수있지않을까?
         // Card api call
         // Cash
         // string
         // payMethod.pay()
+        Money changeAmount = payService.pay(orderBookCommand, book.getPrice(), discountPrice);
 
         Order order = new Order(orderBookCommand);
         orderRepository.saveAndFlush(order);
