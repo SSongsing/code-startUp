@@ -22,6 +22,9 @@ public class Money {
         return this.moneyValue.compareTo(comparedMoney.getMoneyValue()) > 0;
     }
 
+    public boolean isValid() {
+        return this.moneyValue.compareTo(ZERO.getMoneyValue()) >= 0;
+    }
     public Money sum(Money sumValue) {
         return new Money(sumValue.getMoneyValue().add(this.moneyValue));
     }

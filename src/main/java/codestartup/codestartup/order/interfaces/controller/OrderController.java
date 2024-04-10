@@ -14,13 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class OrderController extends BaseController {
     private final OrderCommandService orderCommandService;
 
     @PostMapping("/orders")
-    public ResponseEntity<Object> orderBook(@RequestBody OrderBookReqDTO orderBookReqDTO) {
+    public ResponseEntity<Object> orderBook(@RequestBody @Valid OrderBookReqDTO orderBookReqDTO) {
         // TODO: 검증
         // cmd로 만들어 주는건? -> controller
         // 할인률이 달라졌다면, 이 검증은 어디서 해야할까? -> service
