@@ -14,6 +14,7 @@ public class OrderBookCommand {
     private Money payAmount;
 
     public OrderBookCommand(OrderBookReqDTO orderBookReqDTO) {
+        // 생성자에 검증
         this.bookId = Long.valueOf(orderBookReqDTO.getItem().getId());
         this.payMethodType = PayMethodType.fromValue(orderBookReqDTO.getPayMethod());
         this.payAmount = orderBookReqDTO.getPayAmount();

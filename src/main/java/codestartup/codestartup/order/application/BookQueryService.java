@@ -20,26 +20,17 @@ import java.util.List;
 @Service
 public class BookQueryService {
     private final BookRepository bookRepository;
-    // TODO: discountRepository로 변경하기 것도 좋지만 service 로 빼도 좋다.
     private final DiscountService discountService;
 
     public GetBookListView getBookList() {
-        // 2주차때 얘기
         List<Book> bookList = bookRepository.findAll();
+
         List<GetBookView> books = new ArrayList<>();
         for (Book book : bookList) {
-            // TODO: builder == 많이 알고있다 == 커플링 == 강결합 == 결합도는 항상 낮추는게 좋다
             List<Money> discountList = discountService.getDiscountList(book);
             books.add(new GetBookView(book, discountList ));
         }
 
-//        List<GetBookView> books = bookRepository.findAll()
-//                .stream()
-//                .map(book -> GetBookView.builder()
-//                        .book(book)
-//                        .discountList(getDiscountList(book, LocalDateTime.now().getDayOfWeek()))
-//                        .build())
-//                .toList();
         return new GetBookListView(books);
     }
 }

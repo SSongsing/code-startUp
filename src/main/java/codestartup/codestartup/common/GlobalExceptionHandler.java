@@ -10,7 +10,7 @@ import org.springframework.http.HttpHeaders;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-@RestControllerAdvice
+@RestControllerAdvice // 도메인
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private HttpHeaders setHeaders(String message) {
@@ -18,6 +18,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         httpHeaders.set("resultMessage", URLEncoder.encode(message, StandardCharsets.UTF_8));
         return httpHeaders;
     }
+
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<Object> handleApiException(ApiException ae) {

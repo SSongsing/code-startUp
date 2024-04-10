@@ -18,7 +18,9 @@ public class PayService {
     @Transactional
     public Money pay(OrderBookCommand orderBookCommand, Money price, Money discountPrice) {
         PayMethodType payMethodType = orderBookCommand.getPayMethodType();
+
         PayMethod payMethod = payMethods.get(payMethodType.getPayMethodName());
+
         return payMethod.pay(orderBookCommand.getPayAmount(), price, discountPrice);
     }
 }

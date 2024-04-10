@@ -22,10 +22,4 @@ public class BookController extends BaseController {
         GetBookListView getBookListView = bookQueryService.getBookList();
         return new ResponseEntity<>(new GetBookListRspDTO(getBookListView), getSuccessHeaders(), HttpStatus.OK);
     }
-
-//    @GetMapping("/m/books/")
-//    public ResponseEntity<GetBookListRspDTO> getMoBookList() {
-//        GetBookListView getBookListView = bookQueryService.getBookList();
-//        return new ResponseEntity<>(new GetBookMobileListRspDTO(getBookListView), getSuccessHeaders(), HttpStatus.OK);
-//    }
 }

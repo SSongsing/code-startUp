@@ -33,6 +33,11 @@ public class OrderCommandService {
 
     @Transactional(rollbackOn = {Exception.class})
     public OrderBookView orderBook(OrderBookCommand orderBookCommand) {
+        // List<MyError> list
+        // list.add(new MyError("bookId", "책이 없습니다."));
+        // if list.size() > 0
+        // exception들을 List에 넣고, throw new ApiException(list)
+
         Book book = bookRepository.findById(orderBookCommand.getBookId())
                 .filter(b -> b.isBuyable(orderBookCommand.getPayAmount()))
                 .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
@@ -40,17 +45,12 @@ public class OrderCommandService {
         List<Money> discountList = discountService.getDiscountList(book);
 
         Money discountPrice = discountList.stream().reduce(Money.ZERO, Money::sum);
-        // TODO: 다형성으로 뺄수있지않을까?
-        // Card api call
-        // Cash
-        // string
-        // payMethod.pay()
-        Money changeAmount = payService.pay(orderBookCommand, book.getPrice(), discountPrice);
+
+        Money changeAmount = payService.pay(orderBookCommand, book, discountPrice);
 
         Order order = orderBookCommand.toEntity();
         orderRepository.saveAndFlush(order);
 
-        // TODO: builder
         PayDetailView payDetailView = new PayDetailView(book.getPrice(), discountPrice, changeAmount, discountList);
         ReceiptView receiptView = new ReceiptView(orderBookCommand, payDetailView);
         return new OrderBookView(receiptView);

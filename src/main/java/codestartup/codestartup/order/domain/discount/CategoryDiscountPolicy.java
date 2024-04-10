@@ -15,8 +15,8 @@ public class CategoryDiscountPolicy implements DiscountPolicy{
         this.DISCOUNT_CATEGORY = DISCOUNT_CATEGORY;
         this.DISCOUNT_AMOUNT = DISCOUNT_AMOUNT;
     }
-    private String DISCOUNT_CATEGORY = CategoryType.IT.getValue();
-    private Money DISCOUNT_AMOUNT = new Money(1000);
+    private String DISCOUNT_CATEGORY;
+    private Money DISCOUNT_AMOUNT;
     @Override
     public boolean isDiscountable(Book book) {
         return StringUtils.equals(book.getCategory(), this.DISCOUNT_CATEGORY);
