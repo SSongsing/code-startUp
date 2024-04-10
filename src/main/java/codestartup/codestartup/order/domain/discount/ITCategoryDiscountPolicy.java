@@ -6,16 +6,12 @@ import codestartup.codestartup.order.domain.Money;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.DayOfWeek;
-
 @Component
 public class ITCategoryDiscountPolicy implements DiscountPolicy{
 
     private String DISCOUNT_CATEGORY_IT = CategoryType.IT.getValue();
-    private String DISCOUNT_TYPE = "CATEGORY";
-
     @Override
-    public boolean isDiscountable(Book book, DayOfWeek dayOfWeek) {
+    public boolean isDiscountable(Book book) {
         return StringUtils.equals(book.getCategory(), DISCOUNT_CATEGORY_IT);
     }
 

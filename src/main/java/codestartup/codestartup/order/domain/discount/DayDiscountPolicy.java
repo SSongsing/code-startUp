@@ -7,26 +7,27 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 
 
 @Component
 @NoArgsConstructor
 public class DayDiscountPolicy implements DiscountPolicy {
 
-    public DayDiscountPolicy(DayOfWeek DISCOUNT_DAY_FRIDAY, String discountType, double DISCOUNT_RATE) {
-        this.DISCOUNT_DAY_FRIDAY = DISCOUNT_DAY_FRIDAY;
-        this.discountType = discountType;
+    public DayDiscountPolicy(DayOfWeek DISCOUNT_DAY, DayOfWeek TODAY, double DISCOUNT_RATE) {
+        this.DISCOUNT_DAY = DISCOUNT_DAY;
+        this.TODAY = TODAY;
         this.DISCOUNT_RATE = DISCOUNT_RATE;
     }
 
-    private DayOfWeek DISCOUNT_DAY_FRIDAY = DayOfWeek.FRIDAY;
-    private String discountType = "DAY";
+    private DayOfWeek DISCOUNT_DAY = DayOfWeek.FRIDAY;
     private double DISCOUNT_RATE = 0.1;
+    private DayOfWeek TODAY = LocalDateTime.now().getDayOfWeek();
 
     @Override
-    public boolean isDiscountable(Book book, DayOfWeek dayOfWeek) {
+    public boolean isDiscountable(Book book) {
 
-        return DISCOUNT_DAY_FRIDAY.equals(dayOfWeek);
+        return DISCOUNT_DAY.equals(TODAY);
     }
     @Override
     public Money getDiscountAmount(Book book) {
