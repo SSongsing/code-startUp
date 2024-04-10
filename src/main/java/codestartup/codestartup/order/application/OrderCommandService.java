@@ -33,11 +33,11 @@ public class OrderCommandService {
 
     @Transactional(rollbackOn = {Exception.class})
     public OrderBookView orderBook(OrderBookCommand orderBookCommand) {
-        Book book = bookRepository.findById(Integer.parseInt(orderBookCommand.getItemId()))
+        Book book = bookRepository.findById(orderBookCommand.getBookId())
                 .filter(b -> b.isBuyable(orderBookCommand.getPayAmount()))
                 .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
 
-        List<Money> discountList = discountService.getDiscountList(book, LocalDateTime.now().getDayOfWeek());
+        List<Money> discountList = discountService.getDiscountList(book);
 
         Money discountPrice = discountList.stream().reduce(Money.ZERO, Money::sum);
         // TODO: 다형성으로 뺄수있지않을까?

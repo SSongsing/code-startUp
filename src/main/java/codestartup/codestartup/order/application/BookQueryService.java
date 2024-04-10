@@ -29,7 +29,7 @@ public class BookQueryService {
         List<GetBookView> books = new ArrayList<>();
         for (Book book : bookList) {
             // TODO: builder == 많이 알고있다 == 커플링 == 강결합 == 결합도는 항상 낮추는게 좋다
-            List<Money> discountList = discountService.getDiscountList(book, LocalDateTime.now().getDayOfWeek());
+            List<Money> discountList = discountService.getDiscountList(book);
             books.add(new GetBookView(book, discountList ));
         }
 

@@ -17,7 +17,7 @@ public class DiscountService {
     private final List<DiscountPolicy> discountPolicies;
 
     @Transactional
-    public List<Money> getDiscountList(Book book, DayOfWeek dayOfToday) {
+    public List<Money> getDiscountList(Book book) {
         List<Money> discountList = new ArrayList<>();
         for (DiscountPolicy discountPolicy : discountPolicies) {
             if (discountPolicy.isDiscountable(book)) {

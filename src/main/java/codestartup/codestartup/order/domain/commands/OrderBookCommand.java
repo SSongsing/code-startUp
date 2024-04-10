@@ -8,19 +8,18 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class OrderBookCommand {
-    private String itemId;
+    private Long bookId;
     private PayMethodType payMethodType;
     private Money payAmount;
 
     public OrderBookCommand(OrderBookReqDTO orderBookReqDTO) {
-        this.itemId = orderBookReqDTO.getItem().getId();
+        this.bookId = Long.valueOf(orderBookReqDTO.getItem().getId());
         this.payMethodType = PayMethodType.fromValue(orderBookReqDTO.getPayMethod());
         this.payAmount = orderBookReqDTO.getPayAmount();
     }
 
     public Order toEntity() {
-        return new Order(Long.valueOf(itemId), payMethodType.getValue());
+        return new Order(bookId, payMethodType.getValue());
     }
 }
