@@ -1,6 +1,6 @@
 package codestartup.codestartup.order.interfaces.validation;
 
-import codestartup.codestartup.order.domain.PayMethodType;
+import codestartup.codestartup.order.domain.pay.PayMethodType;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;

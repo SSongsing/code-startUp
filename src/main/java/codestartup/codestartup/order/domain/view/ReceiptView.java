@@ -1,7 +1,7 @@
 package codestartup.codestartup.order.domain.view;
 
 import codestartup.codestartup.order.domain.Money;
-import codestartup.codestartup.order.domain.PayMethodType;
+import codestartup.codestartup.order.domain.pay.PayMethodType;
 import codestartup.codestartup.order.domain.commands.OrderBookCommand;
 import lombok.Builder;
 import lombok.Getter;

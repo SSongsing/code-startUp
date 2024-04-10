@@ -1,4 +1,4 @@
-package codestartup.codestartup.order.domain;
+package codestartup.codestartup.order.domain.pay;
 
 import codestartup.codestartup.common.ApiException;
 import lombok.Getter;

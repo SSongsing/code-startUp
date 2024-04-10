@@ -1,5 +1,6 @@
-package codestartup.codestartup.order.domain;
+package codestartup.codestartup.order.domain.pay;
 
+import codestartup.codestartup.order.domain.Money;
 import org.springframework.stereotype.Component;
 
 @Component
