@@ -26,9 +26,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class OrderCommandService {
+    private final DiscountService discountService;
     private final BookRepository bookRepository;
     private final OrderRepository orderRepository;
-    private final List<DiscountPolicy> discountPolicies;
 
     @Transactional(rollbackOn = {Exception.class})
     public OrderBookView orderBook(OrderBookCommand orderBookCommand) {
@@ -36,7 +36,7 @@ public class OrderCommandService {
                 .filter(b -> b.isBuyable(orderBookCommand.getPayAmount()))
                 .orElseThrow(() -> new ApiException("잘못된 주문입니다.", HttpStatus.BAD_REQUEST));
 
-        List<Money> discountList = getDiscountList(book, LocalDateTime.now().getDayOfWeek());
+        List<Money> discountList = discountService.getDiscountList(book, LocalDateTime.now().getDayOfWeek());
 
         Money discountPrice = discountList.stream().reduce(Money.ZERO, Money::sum);
         Money changeAmount = book.getChangeAmount(orderBookCommand, discountPrice);
@@ -54,15 +54,5 @@ public class OrderCommandService {
         PayDetailView payDetailView = new PayDetailView(book.getPrice(), discountPrice, changeAmount, discountList);
         ReceiptView receiptView = new ReceiptView(orderBookCommand, payDetailView);
         return new OrderBookView(receiptView);
-    }
-
-    private List<Money> getDiscountList(Book book, DayOfWeek dayOfToday) {
-        List<Money> discountList = new ArrayList<>();
-        for (DiscountPolicy discountPolicy : discountPolicies) {
-            if (discountPolicy.isDiscountable(book, dayOfToday)) {
-                discountList.add(discountPolicy.getDiscountAmount(book));
-            }
-        }
-        return discountList;
     }
 }
